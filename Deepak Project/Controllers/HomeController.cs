@@ -20,7 +20,7 @@ namespace Deepak_Project.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<BookModel> b = _db.Books.ToList();
+            IEnumerable<BookModel> b = _db.Books.FromSqlRaw("Select * From Books order by noofdownloads desc").ToList();
             return View(b);
         }
 
@@ -45,7 +45,8 @@ namespace Deepak_Project.Controllers
         [HttpPost]
         public IActionResult Index(string q)
         {
-            IEnumerable<BookModel> b = _db.Books.Where(x=>x.Title.ToLower().Contains(q.ToLower())).ToList();
+            string sql = "Select * from books where category like '%"+q+"%' or title like '%"+q+"%' or author like '%"+q+ "%' order by noofdownloads desc";
+            IEnumerable<BookModel> b = _db.Books.FromSqlRaw(sql).ToList();
             return View(b);
         }
 
