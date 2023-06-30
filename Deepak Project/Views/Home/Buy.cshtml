@@ -1,0 +1,47 @@
+﻿@model Deepak_Project.Models.BuyModel
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Buy";
+}
+
+@if(Model.Book==null){
+    <h1>Book was not available</h1>
+}
+else{
+    <h1>@Model.Book.Title</h1>
+    <h2>@Model.Book.Author</h2>
+    <h3>@Model.Book.Category</h3>
+}
+
+@{
+
+    if(Model.Books.Count>0){
+    int co = 0;
+    <h3 style="text-align:center">Books</h3>
+        <table width="100%">
+        <tr>
+            <td>S.No</td>
+            <td>Title</td>
+            <td>Author</td>
+            <td>Category</td>
+            <td>No of Downloads</td>
+            <td>Buy Now</td>
+        </tr>
+        @for(int i = 0; i < Model.Books.Count; i++)
+        {
+                <tr>
+                    <td>@co</td>
+                    <td>@Model.Books[i].Title</td>
+                    <td>@Model.Books[i].Author</td>
+                    <td>@Model.Books[i].Category</td>
+                    <td>@Model.Books[i].NoOfDownloads</td>
+                    <td>@Html.ActionLink("Buy","Buy","Home",new {id=Model.Books[i].Id})</td>
+                </tr>
+                co++;
+        }
+        </table>
+    }
+}
