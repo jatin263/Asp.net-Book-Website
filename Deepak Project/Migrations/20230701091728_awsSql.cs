@@ -5,7 +5,7 @@
 namespace Deepak_Project.Migrations
 {
     /// <inheritdoc />
-    public partial class AddBookModel : Migration
+    public partial class awsSql : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -30,6 +30,39 @@ namespace Deepak_Project.Controllers
         }
 
         [HttpPost]
+        public IActionResult Login(string uEmail,string uPassword)
+        {
+            UserModel u = _db.Users.Where(g=>g.Email==uEmail).FirstOrDefault();
+            if (u != null)
+            {
+                if (u.Password == uPassword)
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            return View();
+        }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public IActionResult Register(UserModel u)
+        {
+            _db.Users.Add(u);
+            _db.SaveChanges();
+            return RedirectToAction("Login");
+        }
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
         public IActionResult InsertBook(BookModel b) {
             b.NoOfDownloads = 0;
             _db.Books.Add(b);
@@ -54,6 +87,9 @@ namespace Deepak_Project.Controllers
         {
             BuyModel d = new BuyModel();
             var h = _db.Books.Find(id);
+            h.NoOfDownloads++;
+            _db.Books.Update(h);
+            _db.SaveChanges();
             d.Book = h;
             var g = _db.Books.FromSqlRaw("Select * from books where category={0} and id != {1}",h.Category,id).ToList();
             d.Books = g;
