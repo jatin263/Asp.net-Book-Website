@@ -34,6 +34,7 @@
                 <td>@Model[i].Category</td>
                 <td>@Model[i].NoOfDownloads</td>
                 <td>@Html.ActionLink("Buy","Buy","Home",new {id=Model[i].Id})</td>
+                <td>@Html.ActionLink("Add To Cart","AddCart","Home",new {id=Model[i].Id})</td>
             </tr>
             co++;
         }

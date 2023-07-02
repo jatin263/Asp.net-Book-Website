@@ -9,6 +9,7 @@ namespace Deepak_Project.Controllers
 {
     public class HomeController : Controller
     {
+        private static int Uid = 0;
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _db;
 
@@ -37,6 +38,7 @@ namespace Deepak_Project.Controllers
             {
                 if (u.Password == uPassword)
                 {
+                    Uid = u.Id;
                     return RedirectToAction("Index");
                 }
             }
@@ -74,6 +76,22 @@ namespace Deepak_Project.Controllers
         {
             return View();
         }
+
+        public IActionResult AddCart(int id)
+        {
+            Console.WriteLine(Uid);
+            if (Uid == 0)
+            {
+                return RedirectToAction("Login");
+            }
+            CartModel c = new CartModel();
+            c.User = _db.Users.Find(Uid);
+            c.Book = _db.Books.Find(id);
+            _db.Carts.Add(c);
+            _db.SaveChanges(true);
+            return View();
+        }
+
 
         [HttpPost]
         public IActionResult Index(string q)
